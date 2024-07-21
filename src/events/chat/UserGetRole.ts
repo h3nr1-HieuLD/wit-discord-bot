@@ -4,8 +4,8 @@ import { IMessageListenerHandler } from "@/lib/interfaces/IMessageListenerHandle
 import MessageData from "@/lib/decorators/Message";
 import { Message } from "discord.js";
 import { quydinh } from "@/constants";
-import prisma from "../../../../prisma/client";
 import _ from "lodash";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.includes("*chotuirole")])
 class UserGetRole implements IMessageListenerHandler {

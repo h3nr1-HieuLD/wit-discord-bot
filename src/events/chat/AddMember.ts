@@ -4,7 +4,7 @@ import { IMessageListenerHandler } from "@/lib/interfaces/IMessageListenerHandle
 import { Message } from "discord.js";
 import MessageData from "@/lib/decorators/Message";
 import { isAdmin } from "@/utils/isAdmin";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.startWith("*addmember")])
 class AddMember implements IMessageListenerHandler {

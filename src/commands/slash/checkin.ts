@@ -1,5 +1,5 @@
 import { SlashCommand, SlashCommandConfig } from "@/types/command";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 
 const config: SlashCommandConfig = {
     description: "Điểm danh",

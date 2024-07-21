@@ -3,11 +3,11 @@ import { Filter } from "@/lib/filter";
 import { IMessageListenerHandler } from "@/lib/interfaces/IMessageListenerHandler";
 import MessageData from "@/lib/decorators/Message";
 import { Message, TextChannel } from "discord.js";
-import prisma from "../../../../prisma/client";
 import { isAdmin } from "@/utils/isAdmin";
 import channels from "@/constants";
 import Client from "@/lib/decorators/Client";
 import { DiscordClient } from "@/lib/client";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.startWith("*end meeting")])
 class CheckIn implements IMessageListenerHandler {

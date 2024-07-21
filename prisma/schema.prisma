@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+enum AttachmentType {
+  FILE
+  ASSIGNMENT
+  DOC
+  VIDEO
+}
+
+enum SUBMISSION_STATUS {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum REQUEST_TYPE {
+  OFF
+  LATE
+}
+
+enum REQUEST_STATUS_TYPE {
+  APPROVED
+  WAITING
+  REJECTED
+}
+
+model Member {
+  memberId         String                @id @default(uuid())
+  username         String                @unique
+  password         String
+  email            String                @unique
+  chapterUnlocked  UserUnlockedChapter[]
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @default(now())
+  Submissions      Submissions[]
+  UserJoinContests UserJoinContests[]
+  RequestOffOrLate RequestOffOrLate[]
+}
+
+model DiscordMember {
+  id        Int      @id @default(autoincrement())
+  discordId String   @unique
+  missTime  Int      @default(0)
+  username  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model DiscordMeet {
+  id        Int      @id @default(autoincrement())
+  joined    String
+  channel   String   @unique @default("none")
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Administrator {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  email     String   @default("noemail")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model DiscordAdminId {
+  id        Int    @id @default(autoincrement())
+  discordId String @unique
+}
+
+model Courses {
+  courseId    String    @id @default(uuid())
+  name        String
+  description String    @default("Không có thông tin")
+  thumbnail   String    @default("https://via.placeholder.com/150")
+  Lessons     Lessons[]
+}
+
+model RequestOffOrLate {
+  requestId  String              @id @default(uuid())
+  memberId   String
+  member     Member              @relation(references: [memberId], fields: [memberId])
+  type       REQUEST_TYPE        @default(LATE)
+  note       String
+  status     REQUEST_STATUS_TYPE @default(WAITING)
+  admin_note String
+}
+
+model Lessons {
+  LessonId       String           @id @default(uuid())
+  name           String
+  description    String           @default("Không có thông tin") @db.VarChar(1000)
+  LessonChapters LessonChapters[]
+  courseId       String
+  CourseInfo     Courses          @relation(fields: [courseId], references: [courseId])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+}
+
+model LessonChapters {
+  chapterId    Int                   @id @default(autoincrement())
+  name         String
+  description  String                @default("Không có thông tin") @db.VarChar(500)
+  LessonId     String
+  Lesson       Lessons               @relation(fields: [LessonId], references: [LessonId])
+  userUnlocked UserUnlockedChapter[]
+  attachments  Attachments[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @default(now())
+}
+
+model Attachments {
+  attachmentId   String         @id @default(uuid())
+  type           AttachmentType @default(DOC)
+  chapterId      Int
+  name           String
+  fileId         String?
+  videoUrl       String?
+  markdown       String?
+  LessonChapters LessonChapters @relation(fields: [chapterId], references: [chapterId])
+}
+
+model Contests {
+  contestId        String             @id @default(uuid())
+  name             String
+  thumbnail        String             @default("https://via.placeholder.com/150")
+  startTime        DateTime
+  endTime          DateTime
+  problems         Problems[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
+  UserJoinContests UserJoinContests[]
+}
+
+model UserJoinContests {
+  memberId     String
+  contestId    String
+  totalScore   Int      @default(0)
+  problemIndex Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+
+  member  Member   @relation(fields: [memberId], references: [memberId])
+  contest Contests @relation(fields: [contestId], references: [contestId])
+
+  @@id([memberId, contestId])
+}
+
+model Problems {
+  problemId       String        @id @default(uuid())
+  point           Int           @default(5)
+  contestId       String
+  problemMarkdown String
+  contestInfo     Contests      @relation(fields: [contestId], references: [contestId])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now())
+  Submissions     Submissions[]
+}
+
+model Submissions {
+  submissionId String            @id @default(uuid())
+  memberId     String
+  author       Member            @relation(fields: [memberId], references: [memberId])
+  scores       Int               @default(0)
+  status       SUBMISSION_STATUS @default(PENDING)
+  problemId    String
+  problem      Problems          @relation(fields: [problemId], references: [problemId])
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now())
+}
+
+model UserUnlockedChapter {
+  memberId  String
+  chapterId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  member  Member         @relation(fields: [memberId], references: [memberId])
+  chapter LessonChapters @relation(fields: [chapterId], references: [chapterId])
+
+  @@id([memberId, chapterId])
+}

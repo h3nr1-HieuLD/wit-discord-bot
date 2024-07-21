@@ -1,9 +1,9 @@
-import prisma from "../../../../prisma/client";
 import MessageListener from "@/lib/decorators/MessageListener";
 import { Filter } from "@/lib/filter";
 import { IMessageListenerHandler } from "@/lib/interfaces/IMessageListenerHandler";
 import MessageData from "@/lib/decorators/Message";
 import { Message } from "discord.js";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.includes("*checkedin")])
 class GetCheckInList implements IMessageListenerHandler {

@@ -5,7 +5,7 @@ import MessageData from "@/lib/decorators/Message";
 import { Message, VoiceChannel } from "discord.js";
 import { getChannelIds } from "@/utils/getChannel";
 import _ from "lodash";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.startWith("*meeting now")])
 class Meeting implements IMessageListenerHandler {

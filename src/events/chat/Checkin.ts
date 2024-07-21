@@ -3,7 +3,7 @@ import { Filter } from "@/lib/filter";
 import { IMessageListenerHandler } from "@/lib/interfaces/IMessageListenerHandler";
 import { Message } from "discord.js";
 import MessageData from "@/lib/decorators/Message";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 
 @MessageListener([Filter.startWith("*checkin")])
 class CheckIn implements IMessageListenerHandler {
