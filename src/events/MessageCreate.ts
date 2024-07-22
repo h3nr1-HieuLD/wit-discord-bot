@@ -9,6 +9,7 @@ import GetCheckInList from "@/events/chat/GetCheckInList";
 import UserGetRole from "@/events/chat/UserGetRole";
 import AddMember from "@/events/chat/AddMember";
 import EndMeeting from "@/events/chat/EndMeeting";
+import ThreadController from "@/events/chat/ThreadController";
 
 @EventModule({
     Event: "MessageCreate",
@@ -23,6 +24,7 @@ import EndMeeting from "@/events/chat/EndMeeting";
         GetId,
         GetCheckInList,
         UserGetRole,
+        ThreadController,
     ],
 })
 class MessageCreate {}

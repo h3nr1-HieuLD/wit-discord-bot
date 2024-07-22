@@ -9,7 +9,7 @@ type DiscordBotModule = {
     SplashCommand: any;
     EventModule: Array<new (...args: any[]) => any>;
 };
-type FilterFnHOK = (content: string) => FilterFunction;
+type FilterFnHOK = (content?: string) => FilterFunction;
 
 type EventModuleT =
     | {

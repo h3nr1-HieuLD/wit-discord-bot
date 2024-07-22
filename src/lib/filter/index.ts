@@ -2,7 +2,7 @@ import { FilterFnHOK, FilterFunction } from "@/lib/@types/bot";
 
 const startWith: FilterFnHOK = (content) => {
     return (message) => {
-        return message.startsWith(content);
+        return message.startsWith(content!);
     };
 };
 
@@ -14,7 +14,7 @@ const equals: FilterFnHOK = (content) => {
 
 const includes: FilterFnHOK = (content) => {
     return (message) => {
-        return message.includes(content);
+        return message.includes(content!);
     };
 };
 
@@ -24,9 +24,16 @@ function not(fn: FilterFunction) {
     };
 }
 
+const anyMessage: FilterFnHOK = () => {
+    return (message) => {
+        return true
+    };
+};
+
 export const Filter = {
     startWith,
     includes,
     equals,
     not,
+    anyMessage,
 };

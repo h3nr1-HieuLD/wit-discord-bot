@@ -1,5 +1,5 @@
 const channels = {
-    notifyChannel: "1262056862480732192",
+    notifyChannel: "1264839930622775399",
 };
 
 export let quydinh = "Xem tại kênh #quy-dinh";

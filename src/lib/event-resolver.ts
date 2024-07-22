@@ -6,7 +6,7 @@ import {
 import { Message } from "discord.js";
 import { MessageDataRoute, MessageFilter } from "@/lib/symbols";
 import useDiscordClient from "@/lib/hooks/useDiscordClient";
-import r from "ramda";
+// import r from "ramda";
 
 export default function resolveEvent(
     eventClass: ModuleConstructor,
@@ -16,7 +16,7 @@ export default function resolveEvent(
         eventClass,
     );
     return async (message: Message) => {
-        if (message.author.bot) return;
+        if (message.author.bot && message.author.displayName == "Threads Bot") return;
 
         const checkValid = filter.map((fn) => fn(message.content));
         if (checkValid.includes(false)) return;
@@ -30,7 +30,7 @@ export default function resolveEvent(
         );
 
         await instant.handler(
-            keyRoute ? r.path(keyRoute, message) : message,
+            message,
             client,
         );
     };
