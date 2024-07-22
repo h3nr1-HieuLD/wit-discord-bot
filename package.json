@@ -14,14 +14,11 @@
     "prisma:studio": "npx prisma studio"
   },
   "dependencies": {
-    "@lodash": "link:@types/@lodash",
-    "@prisma/client": "5.17.0",
     "@types/dotenv": "^8.2.0",
     "chalk": "4.1.2",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
-    "lodash": "^4.17.21",
     "ramda": "^0.30.1",
     "reflect-metadata": "^0.2.2",
     "zod": "^3.22.4"
